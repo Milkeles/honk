@@ -13,7 +13,7 @@ using System;
 public class Car : IDisposable
 {
     #region constants
-    private const ushort MAX_HONKS = 3;
+    private const int MAX_HONKS = 3;
     #endregion
 
     #region fields

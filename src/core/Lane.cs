@@ -42,8 +42,9 @@ public class Lane
     /// <summary>Fires whenever the waiting car honks. Read Waiting.HonkCount for the count.</summary>
     public event Action<Lane> Honked;
 
-    /// <summary>Fires when the waiting car rear-ends the front car. Both cars are gone; a life is lost.</summary>
-    public event Action<Lane> Crashed;
+    /// <summary>Fires when the waiting car rear-ends the front car. Both cars are gone;
+    /// a life is lost. Carries (lane, front victim, rammer).</summary>
+    public event Action<Lane, Car, Car> Crashed;
     #endregion
 
     #region public methods
@@ -113,9 +114,9 @@ public class Lane
         _front = null;
         _waiting = null;
 
-        rammer.Dispose();
+        Crashed?.Invoke(this, victim, rammer);
         victim?.Dispose();
-        Crashed?.Invoke(this);
+        rammer.Dispose();
     }
     #endregion
 }

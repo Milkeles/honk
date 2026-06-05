@@ -1,12 +1,13 @@
-/* The shared crossing area. Releases cars across the box one at a time, turns an
- * illegal release into a crash with the right-of-way car, detects deadlock, and
+/* The shared crossing area. Owns the four lanes, releases cars across the box one
+ * at a time, turns an illegal release into a crash with the right-of-way car,
+ * surfaces lane honks and rear-end (impatience) crashes, detects deadlock, and
  * resolves a deadlock by crashing a random pair. Pure logic, no rendering.
  *
  * Dependencies: Lane, Car, Direction
  * Author(s): H. Hristov (Milkeles)
  * Created: 04/06/2026 (dd/mm/yyyy)
  * Updated: 05/06/2026 (dd/mm/yyyy)
- * Last change: Encoded right-of-way rules; added CrashCause; guarded TryAddCar input
+ * Last change: Added Tick and lane-event surfacing (CarHonked, impatience crashes); random lane pick
 */
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,12 @@ public class Intersection : IDisposable
             new Lane(LaneOrigin.South),
             new Lane(LaneOrigin.East),
         };
+
+        foreach (Lane lane in _lanes)
+        {
+            lane.Honked += OnLaneHonked;
+            lane.Crashed += OnLaneCrashed;
+        }
     }
     #endregion
 
@@ -40,12 +47,21 @@ public class Intersection : IDisposable
     #endregion
 
     #region events
-    /// <summary>Fires when two cars crash, by illegal move or deadlock. Both cars are
-    /// being removed; the subscriber (Game) deducts one life. Cause is for visuals/audio.</summary>
+    /// <summary>Fires when two cars crash, by illegal move, deadlock, or impatience. Both cars
+    /// are being removed; the subscriber (Game) deducts one life. Cause is for visuals/audio.</summary>
     public event Action<Car, Car, CrashCause> Crashed;
+
+    /// <summary>Fires when a waiting car honks. Carries the honking car.</summary>
+    public event Action<Car> CarHonked;
     #endregion
 
     #region public methods
+    /// <summary>Advances every lane's queue patience. Runs even while the box is busy.</summary>
+    public void Tick(float delta)
+    {
+        foreach (Lane lane in _lanes) lane.Tick(delta);
+    }
+
     /// <summary>
     /// Releases the front car of the given lane. A legal move begins a crossing and makes
     /// the box busy until <see cref="FinishAnimation"/>. An illegal move sends the chosen
@@ -103,7 +119,7 @@ public class Intersection : IDisposable
         Crash(occupied[i].ReleaseFront(), occupied[j].ReleaseFront(), CrashCause.Deadlock);
     }
 
-    /// <summary>Clears the box once a crossing or crash animation has finished. Driven by
+    /// <summary>Clears the box once a crossing or box-crash animation has finished. Driven by
     /// the CarView animation-finished event via Game.</summary>
     public void FinishAnimation()
     {
@@ -112,17 +128,23 @@ public class Intersection : IDisposable
         _crashing = false;
     }
 
-    public bool TryGetAvailableLane(out LaneOrigin origin)
+    /// <summary>Picks a uniformly random lane that has room for another car.</summary>
+    public bool TryGetAvailableLane(Random rng, out LaneOrigin origin)
     {
+        int count = 0;
+        for (int i = 0; i < _lanes.Length; i++)
+            if (!_lanes[i].IsFull) count++;
+
+        if (count == 0) { origin = default; return false; }
+
+        int pick = rng.Next(count);
         for (int i = 0; i < _lanes.Length; i++)
         {
-            if (!_lanes[i].IsFull)
-            {
-                origin = (LaneOrigin)i;
-                return true;
-            }
+            if (_lanes[i].IsFull) continue;
+            if (pick-- == 0) { origin = (LaneOrigin)i; return true; }
         }
-        origin = default;
+
+        origin = default; // unreachable
         return false;
     }
 
@@ -143,11 +165,17 @@ public class Intersection : IDisposable
         _crossing?.Dispose();
         _crossing = null;
         Crashed = null;
+        CarHonked = null;
         _disposed = true;
     }
     #endregion
 
     #region private methods
+    private void OnLaneHonked(Lane lane) => CarHonked?.Invoke(lane.Waiting);
+
+    private void OnLaneCrashed(Lane lane, Car victim, Car rammer)
+        => Crashed?.Invoke(victim, rammer, CrashCause.Impatience);
+
     private void Crash(Car a, Car b, CrashCause cause)
     {
         _crashing = true;
