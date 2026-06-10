@@ -1,5 +1,8 @@
 [gd_scene format=4 uid="uid://b2h4yidyrklgc"]
 
+[ext_resource type="PackedScene" uid="uid://cyvj3b8rtcq3p" path="res://scenes/Car.tscn" id="1_0ykhv"]
+[ext_resource type="PackedScene" uid="uid://d3m5uuiin47mm" path="res://scenes/Lane.tscn" id="1_2wh52"]
+[ext_resource type="Script" uid="uid://0aifgr70gimr" path="res://src/GameController.cs" id="1_ow34m"]
 [ext_resource type="Texture2D" uid="uid://d2n1qyeqr4btk" path="res://assets/art/Tileset.png" id="1_yqorp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ykhv"]
@@ -1342,7 +1345,31 @@ texture_region_size = Vector2i(256, 256)
 [sub_resource type="TileSet" id="TileSet_2wh52"]
 sources/0 = SubResource("TileSetAtlasSource_0ykhv")
 
-[node name="MainMenu" type="Node2D" unique_id=176785198]
+[node name="Game" type="Node2D" unique_id=176785198]
+script = ExtResource("1_ow34m")
+
+[node name="SouthLane" parent="." unique_id=1676008392 instance=ExtResource("1_2wh52")]
+z_index = 5
+position = Vector2(7.9999995, 485.99997)
+CarScene = ExtResource("1_0ykhv")
+
+[node name="EastLane" parent="." unique_id=799090524 instance=ExtResource("1_2wh52")]
+z_index = 5
+position = Vector2(502, -8)
+rotation = 4.712389
+CarScene = ExtResource("1_0ykhv")
+
+[node name="NorthLane" parent="." unique_id=1881978752 instance=ExtResource("1_2wh52")]
+z_index = 5
+position = Vector2(8, -503)
+rotation = 3.1415927
+CarScene = ExtResource("1_0ykhv")
+
+[node name="WestLane" parent="." unique_id=1552407454 instance=ExtResource("1_2wh52")]
+z_index = 5
+position = Vector2(-486, -7.9999995)
+rotation = 1.5707964
+CarScene = ExtResource("1_0ykhv")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=963033833]
 tile_map_data = PackedByteArray("AAAAAP//AAABAAAAAADw////AAAAAAAAAAAQAP//AAAAAAAAAAAAAO//AAABAAEAAAAAAA8AAAABAAEAAAAQAA8AAAAAAAEAAADw/w8AAAAAAAEAAADw/+//AAAAAAEAAAAQAO//AAAAAAEAAAAQAN//AAAAAAEAAADw/9//AAAAAAEAAADw/8//AAAAAAEAAAAQAM//AAAAAAEAAADw/7//AAAAAAEAAAAQAL//AAAAAAEAAADg/+//AAAAAAEAAADg/9//AAAAAAEAAADg/8//AAAAAAEAAADg/7//AAAAAAEAAAAgAL//AAAAAAEAAAAgAM//AAAAAAEAAAAgAN//AAAAAAEAAAAgAO//AAAAAAEAAAAgAP//AAAAAAAAAADg////AAAAAAAAAAAAAB8AAAABAAEAAAAAAC8AAAABAAEAAAAAAD8AAAABAAEAAAAAAN//AAABAAEAAAAAAM//AAABAAEAAAAAAL//AAABAAEAAADw/x8AAAAAAAEAAADw/y8AAAAAAAEAAADw/z8AAAAAAAEAAAAgAA8AAAAAAAEAAAAQAB8AAAAAAAEAAAAgAB8AAAAAAAEAAAAQAC8AAAAAAAEAAAAgAC8AAAAAAAEAAAAQAD8AAAAAAAEAAAAgAD8AAAAAAAEAAADg/z8AAAAAAAEAAADg/y8AAAAAAAEAAADg/x8AAAAAAAEAAADg/w8AAAAAAAEAAAAYAA8AAAACAAEAAAAYAB8AAAACAAAAAAAYAC8AAAACAAEAAAAYAD8AAAACAAAAAADo/w8AAAACAAEAAADo/x8AAAACAAAAAADo/y8AAAACAAEAAADo/z8AAAACAAAAAAAYAO//AAACAAAAAAAYAN//AAACAAEAAAAYAM//AAACAAAAAAAYAL//AAACAAEAAADo/7//AAACAAEAAADo/8//AAACAAAAAADo/9//AAACAAEAAADo/+//AAACAAAAAAA=")
@@ -1350,36 +1377,3 @@ tile_set = SubResource("TileSet_2wh52")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2142559985]
 zoom = Vector2(1.5, 1.5)
-
-[node name="PlayButton" type="Button" parent="." unique_id=227808053]
-offset_left = -80.0
-offset_top = -22.0
-offset_right = 80.0
-offset_bottom = 22.0
-text = "PLAY"
-
-[node name="CreditsButton" type="Button" parent="." unique_id=1207304440]
-offset_left = -80.0
-offset_top = 83.0
-offset_right = 80.0
-offset_bottom = 127.0
-text = "CREDITS
-"
-
-[node name="CharacterButton" type="Button" parent="." unique_id=552629860]
-offset_left = -80.0
-offset_top = 31.0
-offset_right = 80.0
-offset_bottom = 75.0
-text = "CHARACTER
-"
-
-[node name="Label" type="Label" parent="." unique_id=243780934]
-offset_left = -80.0
-offset_top = -85.0
-offset_right = 81.0
-offset_bottom = -28.0
-text = "Welcome to HONK!
-(Coming Soon)"
-horizontal_alignment = 1
-vertical_alignment = 1

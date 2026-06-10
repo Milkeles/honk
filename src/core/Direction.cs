@@ -9,17 +9,19 @@
  * Last change: Reordered LaneOrigin (swapped East/West) to fix right/oncoming geometry.
 */
 
-public enum LaneOrigin
-{
-    North,
-    West,
-    South,
-    East
-}
+namespace Core {
+    public enum LaneOrigin
+    {
+        North,
+        West,
+        South,
+        East
+    }
 
-public enum MovementDirection
-{
-    Left,
-    Straight,
-    Right
+    public enum MovementDirection
+    {
+        Left,
+        Straight,
+        Right
+    }
 }

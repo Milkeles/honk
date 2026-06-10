@@ -8,9 +8,11 @@
  * Last change: N/A
 */
 
-public enum CrashCause
-{
-    IllegalMove,
-    Deadlock,
-    Impatience
+namespace Core {
+    public enum CrashCause
+    {
+        IllegalMove,
+        Deadlock,
+        Impatience
+    }
 }

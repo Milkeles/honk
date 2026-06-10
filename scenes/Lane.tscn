@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://d3m5uuiin47mm"]
+
+[ext_resource type="Script" uid="uid://c0w4ftxxh2usv" path="res://src/presentation/LaneView.cs" id="1_s7u0x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_766x4"]
+size = Vector2(28, 122)
+
+[node name="Lane" type="Area2D" unique_id=1676008392]
+scale = Vector2(2.45, 2.45)
+script = ExtResource("1_s7u0x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=347403037]
+scale = Vector2(2.45, 2.45)
+shape = SubResource("RectangleShape2D_766x4")
+
+[node name="EntryPos" type="Marker2D" parent="." unique_id=228984316]
+position = Vector2(-16.734695, -148.9796)
+scale = Vector2(2.45, 2.45)
+
+[node name="FrontPos" type="Marker2D" parent="." unique_id=1930269706]
+position = Vector2(17.55102, -125.30612)
+scale = Vector2(2.45, 2.45)
+
+[node name="BackPos" type="Marker2D" parent="." unique_id=1895836447]
+position = Vector2(17.959185, -25.714285)
+scale = Vector2(2.45, 2.45)
+
+[node name="SpawnPos" type="Marker2D" parent="." unique_id=781536667]
+position = Vector2(17.959185, 148.9796)
+scale = Vector2(2.45, 2.45)
+
+[node name="ExitPos" type="Marker2D" parent="." unique_id=1367328948]
+position = Vector2(-17.142859, 149.38776)
+scale = Vector2(2.45, 2.45)

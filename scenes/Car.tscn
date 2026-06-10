@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://cyvj3b8rtcq3p"]
+
+[ext_resource type="Script" uid="uid://jjrwg32vbv8u" path="res://src/presentation/CarView.cs" id="1_7u4s5"]
+[ext_resource type="Texture2D" uid="uid://by7rsni5snttj" path="res://assets/art/cars/Car1.png" id="2_qn377"]
+[ext_resource type="Texture2D" uid="uid://cuwm85sh6d86y" path="res://assets/art/arrow-rotary-straight.svg" id="3_fbyd5"]
+[ext_resource type="Texture2D" uid="uid://c60yeulbvohgc" path="res://assets/art/arrow-rotary-left.svg" id="4_fbyd5"]
+[ext_resource type="Texture2D" uid="uid://dy4w22msb2iup" path="res://assets/art/arrow-rotary-right.svg" id="4_t6kce"]
+[ext_resource type="Texture2D" uid="uid://bjrnfl8ixwan6" path="res://assets/art/scorch_02.png" id="6_vaoqk"]
+[ext_resource type="AudioStream" uid="uid://6vxwr30hrc0e" path="res://assets/audio/CrashFX.mp3" id="7_v7lie"]
+[ext_resource type="Texture2D" uid="uid://xf6l01eminld" path="res://assets/art/AngerMark.png" id="8_i5sjj"]
+[ext_resource type="AudioStream" uid="uid://dxhlrq4ih8bq1" path="res://assets/audio/HonkVFX.mp3" id="9_ckadj"]
+
+[sub_resource type="Curve" id="Curve_v7lie"]
+_data = [Vector2(0, 1), 0.0, -1.5989622, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bfku0"]
+curve = SubResource("Curve_v7lie")
+
+[sub_resource type="Curve" id="Curve_i5sjj"]
+_data = [Vector2(0, 0), 0.0, 6.817978, 0, 0, Vector2(1, 0), 0.71268046, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ckadj"]
+curve = SubResource("Curve_i5sjj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_658ie"]
+lifetime_randomness = 0.06
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+angle_min = -609.2
+angle_max = 343.40002
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 9.999997
+scale_curve = SubResource("CurveTexture_ckadj")
+emission_curve = SubResource("CurveTexture_bfku0")
+hue_variation_min = -2.2351742e-08
+hue_variation_max = 0.039999977
+
+[node name="Car" type="Node2D" unique_id=1273298257]
+scale = Vector2(0.05, 0.05)
+script = ExtResource("1_7u4s5")
+
+[node name="BodyVisual" type="Sprite2D" parent="." unique_id=124576022]
+z_index = 2
+position = Vector2(2, 0)
+rotation = 3.1415927
+texture = ExtResource("2_qn377")
+
+[node name="Straight" type="Sprite2D" parent="." unique_id=1231611027]
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(-19.999998, -540)
+scale = Vector2(18, 18)
+texture = ExtResource("3_fbyd5")
+
+[node name="Right" type="Sprite2D" parent="." unique_id=446884361]
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(70, -432)
+scale = Vector2(18, 18)
+texture = ExtResource("4_t6kce")
+
+[node name="Left" type="Sprite2D" parent="." unique_id=929803274]
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(-74, -432)
+scale = Vector2(18, 18)
+texture = ExtResource("4_fbyd5")
+
+[node name="CrashEffect" type="Node2D" parent="." unique_id=1142340639]
+
+[node name="Particles" type="GPUParticles2D" parent="CrashEffect" unique_id=1209253911]
+modulate = Color(0.9999998, 0.7216265, 0.3659584, 1)
+z_index = 4
+emitting = false
+amount = 5
+texture = ExtResource("6_vaoqk")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_658ie")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="CrashEffect" unique_id=1123154880]
+stream = ExtResource("7_v7lie")
+
+[node name="HonkEffect" type="Node2D" parent="." unique_id=317649999]
+
+[node name="AngerMark" type="Sprite2D" parent="HonkEffect" unique_id=1939876804]
+visible = false
+z_index = 5
+texture_filter = 1
+position = Vector2(133, -160)
+scale = Vector2(0.5488281, 0.5488281)
+texture = ExtResource("8_i5sjj")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="HonkEffect" unique_id=889558303]
+stream = ExtResource("9_ckadj")
+volume_db = 6.0
+pitch_scale = 0.85
