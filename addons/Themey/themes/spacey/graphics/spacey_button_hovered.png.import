@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy4w22msb2iup"
-path="res://.godot/imported/arrow-rotary-right.svg-0fcd16f025e67b8664bb9be2192f6ac9.ctex"
+uid="uid://b6kdwekt63neb"
+path="res://.godot/imported/spacey_button_hovered.png-6c780843da7b284113427500b9061fa0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/arrow-rotary-right.svg"
-dest_files=["res://.godot/imported/arrow-rotary-right.svg-0fcd16f025e67b8664bb9be2192f6ac9.ctex"]
+source_file="res://addons/Themey/themes/spacey/graphics/spacey_button_hovered.png"
+dest_files=["res://.godot/imported/spacey_button_hovered.png-6c780843da7b284113427500b9061fa0.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

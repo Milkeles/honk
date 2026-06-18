@@ -26,6 +26,7 @@ namespace Controller
         [Export] private float _crashDriveDuration = 0.35f;
 
         private readonly Dictionary<LaneOrigin, LaneView> _lanes = new();
+        private GameplayView _hud;
         private GameManager _game;
         private Vector2 _center;
         private int _pendingBoxAnims; // box-occupying animations still running this crossing/crash
@@ -80,7 +81,6 @@ namespace Controller
             // TODO: show game-over UI / offer restart
         }
 
-        // --- helpers -------------------------------------------------------
         private void DriveIntoCentreAndCrash(Car car)
         {
             CarView view = _lanes[car.LaneOrigin].ReleaseFront();
@@ -145,6 +145,17 @@ namespace Controller
             _game.CarHonked += OnCarHonked;
             _game.Crashed += OnCrashed;
             _game.GameOver += OnGameOver;
+
+            _hud = GetNode<GameplayView>("%HUD");
+
+            _hud.Initialize(
+                maxLives: _game.Lives,
+                startLives: _game.Lives,
+                startScore: _game.Score
+            );
+
+            _game.LifeLost += _hud.SetLives;
+            _game.CarCrossing += _ => _hud.UpdateScore(_game.Score);
         }
 
         public override void _Process(double delta) => _game?.Tick((float)delta);

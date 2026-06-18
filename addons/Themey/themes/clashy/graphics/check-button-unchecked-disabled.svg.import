@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuwm85sh6d86y"
-path="res://.godot/imported/arrow-rotary-straight.svg-0c1f2ece2eb16c5bdb6decfca66062fc.ctex"
+uid="uid://b0vpdub1akiut"
+path="res://.godot/imported/check-button-unchecked-disabled.svg-366e840c95a2c92e29248ec89b2690d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/arrow-rotary-straight.svg"
-dest_files=["res://.godot/imported/arrow-rotary-straight.svg-0c1f2ece2eb16c5bdb6decfca66062fc.ctex"]
+source_file="res://addons/Themey/themes/clashy/graphics/check-button-unchecked-disabled.svg"
+dest_files=["res://.godot/imported/check-button-unchecked-disabled.svg-366e840c95a2c92e29248ec89b2690d1.ctex"]
 
 [params]
 

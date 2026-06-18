@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://jjrwg32vbv8u" path="res://src/presentation/CarView.cs" id="1_7u4s5"]
 [ext_resource type="Texture2D" uid="uid://by7rsni5snttj" path="res://assets/art/cars/Car1.png" id="2_qn377"]
-[ext_resource type="Texture2D" uid="uid://cuwm85sh6d86y" path="res://assets/art/arrow-rotary-straight.svg" id="3_fbyd5"]
-[ext_resource type="Texture2D" uid="uid://c60yeulbvohgc" path="res://assets/art/arrow-rotary-left.svg" id="4_fbyd5"]
-[ext_resource type="Texture2D" uid="uid://dy4w22msb2iup" path="res://assets/art/arrow-rotary-right.svg" id="4_t6kce"]
+[ext_resource type="Texture2D" uid="uid://cuwm85sh6d86y" path="res://assets/art/icons/arrow-rotary-straight.svg" id="3_fbyd5"]
+[ext_resource type="Texture2D" uid="uid://c60yeulbvohgc" path="res://assets/art/icons/arrow-rotary-left.svg" id="4_fbyd5"]
+[ext_resource type="Texture2D" uid="uid://dy4w22msb2iup" path="res://assets/art/icons/arrow-rotary-right.svg" id="4_t6kce"]
 [ext_resource type="Texture2D" uid="uid://bjrnfl8ixwan6" path="res://assets/art/scorch_02.png" id="6_vaoqk"]
 [ext_resource type="AudioStream" uid="uid://6vxwr30hrc0e" path="res://assets/audio/CrashFX.mp3" id="7_v7lie"]
 [ext_resource type="Texture2D" uid="uid://xf6l01eminld" path="res://assets/art/AngerMark.png" id="8_i5sjj"]

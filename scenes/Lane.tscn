@@ -22,7 +22,7 @@ position = Vector2(17.55102, -125.30612)
 scale = Vector2(2.45, 2.45)
 
 [node name="BackPos" type="Marker2D" parent="." unique_id=1895836447]
-position = Vector2(17.959185, -25.714285)
+position = Vector2(17.959185, -51.02041)
 scale = Vector2(2.45, 2.45)
 
 [node name="SpawnPos" type="Marker2D" parent="." unique_id=781536667]

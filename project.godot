@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="HONK!"
-run/main_scene="uid://b2h4yidyrklgc"
+run/main_scene="uid://b0u1tjxmycuo"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
+boot_splash/bg_color=Color(0.14445904, 0.04970132, 0.07675796, 1)
+boot_splash/image="uid://xf6l01eminld"
 config/icon="res://icon.svg"
+
+[autoload]
+
+TransitionScene="*uid://b4kyjwp4dqypg"
 
 [display]
 
@@ -26,6 +32,10 @@ window/handheld/orientation=1
 [dotnet]
 
 project/assembly_name="HONK!"
+
+[gui]
+
+theme/custom="uid://bsyjmm3kj6qyr"
 
 [input_devices]
 

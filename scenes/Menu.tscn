@@ -1,0 +1,253 @@
+[gd_scene format=3 uid="uid://b0u1tjxmycuo"]
+
+[ext_resource type="Script" uid="uid://ds1v7ht18gc5r" path="res://src/presentation/MenuView.cs" id="1_jmdev"]
+[ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="2_b6cxs"]
+[ext_resource type="Texture2D" uid="uid://dth7wlj8ava0g" path="res://assets/art/icons/PlayIcon.svg" id="3_aaywf"]
+[ext_resource type="Texture2D" uid="uid://cf5qeta2p6ygj" path="res://assets/art/icons/CharacterIcon.svg" id="4_1abgu"]
+[ext_resource type="Texture2D" uid="uid://ck7jwiy4uiq8q" path="res://assets/art/icons/SettingsIcon.svg" id="5_aaywf"]
+[ext_resource type="Texture2D" uid="uid://bohfgv21vnhy0" path="res://assets/art/icons/ExitIcon.svg" id="5_yt8fu"]
+[ext_resource type="Texture2D" uid="uid://dq0smbif3q47c" path="res://addons/Themey/themes/spacey/graphics/star.png" id="6_b6cxs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lnkpl"]
+font = ExtResource("2_b6cxs")
+font_size = 120
+shadow_size = 5
+shadow_color = Color(0.19966345, 0.734698, 0.93861526, 0.717)
+
+[node name="Control" type="Control" unique_id=1463234633]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jmdev")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=6004882]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.004232218, 0.008759057, 0.045904502, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=481130428]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1181707683]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=359104974]
+layout_mode = 2
+text = "HONK!"
+label_settings = SubResource("LabelSettings_lnkpl")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/VBoxContainer" unique_id=198109902]
+clip_contents = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+color = Color(0, 0.57036364, 0.9223068, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=2065303238]
+layout_mode = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=309222765]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+
+"
+icon = ExtResource("3_aaywf")
+icon_alignment = 1
+
+[node name="Character" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=353134122]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("4_1abgu")
+
+[node name="Settings" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=822573112]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("5_aaywf")
+
+[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1886579521]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+icon = ExtResource("5_yt8fu")
+
+[node name="SettingsContainer" type="CenterContainer" parent="." unique_id=1347181353]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenteredContent" type="Control" parent="SettingsContainer" unique_id=1489165462]
+custom_minimum_size = Vector2(1120, 616)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LevelCompletePanel" type="PanelContainer" parent="SettingsContainer/CenteredContent" unique_id=922852126]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.0
+offset_top = -104.0
+offset_right = 127.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel" unique_id=1602427329]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer" unique_id=888283322]
+layout_mode = 2
+
+[node name="Ribbon2" type="PanelContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=536654686]
+z_index = 1
+layout_mode = 2
+theme_type_variation = &"Panel_Ribbon"
+
+[node name="Label" type="Label" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2" unique_id=1068654352]
+layout_mode = 2
+theme_type_variation = &"Label_Title"
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="SpreadStars" type="Control" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label" unique_id=616359386]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect2" type="TextureRect" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=570455173]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -69.0
+offset_right = -30.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.174533
+texture = ExtResource("6_b6cxs")
+stretch_mode = 6
+
+[node name="TextureRect3" type="TextureRect" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=1248437200]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -84.0
+offset_right = 18.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("6_b6cxs")
+
+[node name="TextureRect4" type="TextureRect" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=399846270]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 31.0
+offset_top = -77.0
+offset_right = 75.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.174533
+texture = ExtResource("6_b6cxs")
+
+[node name="MusicControl" type="PanelContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=509454241]
+layout_mode = 2
+theme_type_variation = &"PanelEmbedded"
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl" unique_id=737799402]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl/MarginContainer" unique_id=1451490412]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl/MarginContainer/VBoxContainer" unique_id=1190694554]
+layout_mode = 2
+text = "MUSIC"
+vertical_alignment = 2
+
+[node name="MusicSlider" type="HSlider" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl/MarginContainer/VBoxContainer" unique_id=546095343]
+layout_mode = 2
+
+[node name="SFXControl" type="PanelContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=296822739]
+layout_mode = 2
+theme_type_variation = &"PanelEmbedded"
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl" unique_id=64332924]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer" unique_id=616981692]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer/VBoxContainer" unique_id=1887993770]
+layout_mode = 2
+text = "SOUND EFFECTS"
+vertical_alignment = 2
+
+[node name="SFXSlider" type="HSlider" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer/VBoxContainer" unique_id=1296081469]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=692416271]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1239024057]
+layout_mode = 2
+text = "   SAVE   "
+
+[node name="DiscardButton" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=480104566]
+layout_mode = 2
+text = "DISCARD
+"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="CenterContainer" method="hide"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="SettingsContainer" method="show"]
+[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="CenterContainer" method="show"]
+[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SettingsContainer" method="hide"]
