@@ -35,12 +35,9 @@ namespace Controller
 
         #region private methods
         // --- input ---------------------------------------------------------
-        private void OnLaneTapped(int origin)
-        {
-            LaneOrigin lane = (LaneOrigin)origin;
-            if (!_lanes[lane].IsFrontReleasable) return; // ignore taps while the front car slides in
-            _game.ReleaseLane(lane);
-        }
+        private void OnLaneTapped(int origin) => _game.ReleaseLane((LaneOrigin)origin);
+
+        private void OnFrontSettled(int origin) => _game.NotifyFrontSettled((LaneOrigin)origin);
 
         // --- core events ---------------------------------------------------
         private void OnCarEntered(Car car)
@@ -80,7 +77,6 @@ namespace Controller
             GD.Print($"Game over. Score: {finalScore}");
             // TODO: show game-over UI / offer restart
         }
-
         private void DriveIntoCentreAndCrash(Car car)
         {
             CarView view = _lanes[car.LaneOrigin].ReleaseFront();
@@ -131,6 +127,7 @@ namespace Controller
             {
                 lane.Origin = origin;
                 lane.LaneTapped += OnLaneTapped;
+                lane.FrontSettled += OnFrontSettled;
             }
 
             Marker2D centerMarker = GetNodeOrNull<Marker2D>("Center");

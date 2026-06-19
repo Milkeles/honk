@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ds1v7ht18gc5r" path="res://src/presentation/MenuView.cs" id="1_jmdev"]
 [ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="2_b6cxs"]
+[ext_resource type="Theme" uid="uid://bsyjmm3kj6qyr" path="res://addons/Themey/themes/spacey/spacey.tres" id="3_1abgu"]
 [ext_resource type="Texture2D" uid="uid://dth7wlj8ava0g" path="res://assets/art/icons/PlayIcon.svg" id="3_aaywf"]
 [ext_resource type="Texture2D" uid="uid://cf5qeta2p6ygj" path="res://assets/art/icons/CharacterIcon.svg" id="4_1abgu"]
 [ext_resource type="Texture2D" uid="uid://ck7jwiy4uiq8q" path="res://assets/art/icons/SettingsIcon.svg" id="5_aaywf"]
@@ -21,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_1abgu")
 script = ExtResource("1_jmdev")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=6004882]
@@ -73,6 +75,7 @@ icon_alignment = 1
 [node name="Character" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=353134122]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"FlatButton"
 icon = ExtResource("4_1abgu")
 
 [node name="Settings" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=822573112]
@@ -212,6 +215,7 @@ text = "MUSIC"
 vertical_alignment = 2
 
 [node name="MusicSlider" type="HSlider" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl/MarginContainer/VBoxContainer" unique_id=546095343]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="SFXControl" type="PanelContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=296822739]
@@ -232,6 +236,7 @@ text = "SOUND EFFECTS"
 vertical_alignment = 2
 
 [node name="SFXSlider" type="HSlider" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer/VBoxContainer" unique_id=1296081469]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=692416271]
@@ -249,5 +254,6 @@ text = "DISCARD
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="CenterContainer" method="hide"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="SettingsContainer" method="show"]
+[connection signal="value_changed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer/VBoxContainer/SFXSlider" to="." method="OnSFXValueChanged"]
 [connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="CenterContainer" method="show"]
 [connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SettingsContainer" method="hide"]

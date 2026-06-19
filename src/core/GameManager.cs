@@ -7,8 +7,8 @@
  * Dependencies: Intersection, Lane, Car, Direction
  * Author(s): H. Hristov (Milkeles)
  * Created: 05/06/2026 (dd/mm/yyyy)
- * Updated: N/A
- * Last change: N/A
+ * Updated: 19/06/2026 (dd/mm/yyyy)
+ * Last change: Updated spawner logic to handle spawning multiple cars at once; Added NotifyFrontSettled for the view to mark a lane's front car settled (slide finished) so it counts for conflict/deadlock checks; Updated comments.
 */
 using System;
 
@@ -17,7 +17,8 @@ namespace Core {
     {
         #region tunables
         private const int StartLives = 3;
-
+        private const int BurstMin = 2;
+        private const int BurstMax = 3;
         private const float SpawnIntervalStart = 2.5f;
         private const float SpawnIntervalMin = 0.8f;
 
@@ -123,6 +124,11 @@ namespace Core {
         /// the CarView animation-finished event.</summary>
         public void NotifyAnimationFinished() => _intersection.FinishAnimation();
 
+        // public methods
+        /// <summary>Marks a lane's front car settled (slide finished), so it counts for conflict/deadlock.
+        /// Driven by the view's slide-finished signal.</summary>
+        public void NotifyFrontSettled(LaneOrigin origin) => _intersection.MarkFrontReady(origin);
+
         public void Dispose()
         {
             if (_disposed) return;
@@ -142,18 +148,76 @@ namespace Core {
         #endregion
 
         #region private methods
+        // private void UpdateSpawning(float delta)
+        // {
+        //     _timeUntilSpawn -= delta;
+        //     if (_timeUntilSpawn > 0f) return;
+
+        //     _timeUntilSpawn = CurrentSpawnInterval();
+
+        //     if (!_intersection.TryGetAvailableLane(_rng, out LaneOrigin origin)) return;
+
+        //     Car car = new Car(CurrentPatience(), origin, RandomDirection());
+        //     _intersection.TryAddCar(car);
+        //     CarEntered?.Invoke(car);
+        // }
         private void UpdateSpawning(float delta)
         {
+            // Never leave the board empty: a fresh burst forces a real decision instead of trivial fast-tapping.
+            if (_intersection.AllLanesEmpty && !_intersection.IsBusy)
+            {
+                SpawnBurst();
+                _timeUntilSpawn = CurrentSpawnInterval();
+                return;
+            }
+
             _timeUntilSpawn -= delta;
             if (_timeUntilSpawn > 0f) return;
 
             _timeUntilSpawn = CurrentSpawnInterval();
+            SpawnSingle();
+        }
 
+        /* 2-3 cars into distinct (empty) lanes at once, checked so the set isn't an unavoidable deadlock —
+         * the player can't act until they all settle, so the board must be solvable on arrival. */
+        private void SpawnBurst()
+        {
+            int count = _rng.Next(BurstMin, BurstMax + 1);
+
+            int[] lanes = { 0, 1, 2, 3 };
+            Shuffle(lanes);
+
+            var dirs = new MovementDirection?[4];
+            for (int i = 0; i < count; i++)
+                dirs[lanes[i]] = RandomDirection();
+
+            if (Intersection.IsConfigDeadlocked(dirs))
+                dirs[lanes[0]] = MovementDirection.Right; // a right turn is always legal -> guarantees solvable
+
+            for (int i = 0; i < count; i++)
+                SpawnCarInLane((LaneOrigin)lanes[i], dirs[lanes[i]].Value);
+        }
+
+        private void SpawnSingle()
+        {
             if (!_intersection.TryGetAvailableLane(_rng, out LaneOrigin origin)) return;
+            SpawnCarInLane(origin, RandomDirection());
+        }
 
-            Car car = new Car(CurrentPatience(), origin, RandomDirection());
+        private void SpawnCarInLane(LaneOrigin origin, MovementDirection dir)
+        {
+            Car car = new Car(CurrentPatience(), origin, dir);
             _intersection.TryAddCar(car);
             CarEntered?.Invoke(car);
+        }
+
+        private void Shuffle(int[] array)
+        {
+            for (int i = array.Length - 1; i > 0; i--)
+            {
+                int j = _rng.Next(i + 1);
+                (array[i], array[j]) = (array[j], array[i]);
+            }
         }
 
         private void OnCarHonked(Car car) => CarHonked?.Invoke(car);

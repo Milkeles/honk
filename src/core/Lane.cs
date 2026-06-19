@@ -19,6 +19,7 @@ namespace Core {
         private readonly LaneOrigin _origin;
         private Car _front;
         private Car _waiting;
+        private bool _frontReady;
         #endregion
 
         #region constructors
@@ -38,6 +39,19 @@ namespace Core {
         public bool IsEmpty => _front == null;
 
         public bool IsFull => _waiting != null;
+
+        /// <summary>The front car only once it has settled (slide finished). Null while still arriving, so a
+        /// just-spawned or just-promoted car is invisible to conflict and deadlock checks until it lands.</summary>
+        public Car ReadyFront => _frontReady ? _front : null;
+
+        /// <summary>True when a settled front car is present and releasable.</summary>
+        public bool IsFrontReady => _frontReady && _front != null;
+
+        /// <summary>Marks the front car settled (called once its slide-to-front finishes).</summary>
+        public void MarkFrontReady()
+        {
+            if (_front != null) _frontReady = true;
+        }
         #endregion
 
         #region events
@@ -57,7 +71,10 @@ namespace Core {
         public void Add(Car car)
         {
             if (_front == null)
+            {
                 _front = car;
+                _frontReady = false;
+            }
             else if (_waiting == null)
                 AttachWaiting(car);
         }
@@ -78,6 +95,7 @@ namespace Core {
             DetachWaiting();
             _front = _waiting;
             _waiting = null;
+            _frontReady = false;
             return released;
         }
 
@@ -89,6 +107,7 @@ namespace Core {
             _front?.Dispose();
             _waiting = null;
             _front = null;
+            _frontReady = false;
         }
         #endregion
 

@@ -28,6 +28,7 @@ namespace Presentation
         private Marker2D _spawnPos;
         private Marker2D _entryPos; // where a car crossing INTO this lane lands (box side)
         private Marker2D _exitPos;  // off-screen point where such a car is destroyed
+        private CarView _settlingFront;
 
         private CarView _front;
         private CarView _waiting;
@@ -52,6 +53,11 @@ namespace Presentation
         /// <summary>Emitted when this lane is tapped. Carries this lane's origin (as int).</summary>
         [Signal]
         public delegate void LaneTappedEventHandler(int origin);
+
+        /// <summary>Emitted when the front car finishes sliding into the front slot. The controller relays it
+        /// to the core so the car starts counting for conflict/deadlock checks.</summary>
+        [Signal]
+        public delegate void FrontSettledEventHandler(int origin);
         #endregion
 
         #region public methods
@@ -75,7 +81,7 @@ namespace Presentation
             if (_front == null)
             {
                 _front = car;
-                car.SlideTo(_frontPos.Position, SlideDuration);
+                SlideToFront(car);
             }
             else
             {
@@ -94,9 +100,10 @@ namespace Presentation
             _front = _waiting;
             _waiting = null;
 
-            _front?.SlideTo(_frontPos.Position, SlideDuration);
+            if (_front != null) SlideToFront(_front);
             return released;
         }
+
 
         /// <summary>Removes and returns the front car without promotion — for the illegal-move case,
         /// where the controller drives it into the box to crash. Null if no front car.</summary>
@@ -111,10 +118,12 @@ namespace Presentation
         /// explode. Front explodes in place; waiting drives into it first.</summary>
         public void CrashQueue()
         {
+            ClearSettling();
+
             if (_front != null && _waiting != null)
                 _waiting.CrashIntoRear(_front.Position, RearCrashDuration);
             else
-                _waiting?.Crash(); // no car ahead (shouldn't happen for impatience) — just explode
+                _waiting?.Crash();
 
             _front?.Crash();
             _front = null;
@@ -136,6 +145,32 @@ namespace Presentation
 
             if (tapped)
                 EmitSignal(SignalName.LaneTapped, (int)Origin);
+        }
+
+        private void SlideToFront(CarView car)
+        {
+            _settlingFront = car;
+            car.SlideFinished += OnFrontSettled;
+            car.SlideTo(_frontPos.Position, SlideDuration);
+        }
+
+        private void OnFrontSettled()
+        {
+            if (_settlingFront == null) return;
+
+            _settlingFront.SlideFinished -= OnFrontSettled;
+            bool stillFront = _front == _settlingFront;
+            _settlingFront = null;
+
+            if (stillFront)
+                EmitSignal(SignalName.FrontSettled, (int)Origin);
+        }
+
+        private void ClearSettling()
+        {
+            if (_settlingFront == null) return;
+            _settlingFront.SlideFinished -= OnFrontSettled;
+            _settlingFront = null;
         }
         #endregion
 
