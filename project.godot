@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 TransitionScene="*uid://b4kyjwp4dqypg"
+SaveManager="*uid://ryf4py2n6fkb"
 
 [display]
 
@@ -32,6 +33,10 @@ window/handheld/orientation=1
 [dotnet]
 
 project/assembly_name="HONK!"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/admob/plugin.cfg")
 
 [gui]
 

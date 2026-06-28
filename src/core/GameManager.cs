@@ -59,6 +59,7 @@ namespace Core {
         public int Score => _score;
 
         public bool IsGameOver => _isGameOver;
+        public int MaxLives => StartLives;
         #endregion
 
         #region events
@@ -145,6 +146,18 @@ namespace Core {
             GameOver = null;
             _disposed = true;
         }
+
+        /// <summary>Clears the board and restores lives, resuming a lost run. Call on player revive.</summary>
+        public void Revive(int lives)
+        {
+            _intersection.ResetBoard();
+            _lives = lives;
+            _isGameOver = false;
+            
+            // brief pause before the next spawn to give the player a moment to react.
+            _timeUntilSpawn = CurrentSpawnInterval();
+        }
+
         #endregion
 
         #region private methods

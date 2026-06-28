@@ -170,7 +170,16 @@ namespace Core {
             lane.Add(car);
             return true;
         }
-
+        
+        /// <summary>Removes all cars and clears any crossing/crash state, returning to an empty box.
+        /// For revive/restart.</summary>
+        public void ResetBoard()
+        {
+            foreach (Lane lane in _lanes) lane.Clear();
+            _crossing?.Dispose();
+            _crossing = null;
+            _crashing = false;
+        }
         public void Dispose()
         {
             if (_disposed) return;

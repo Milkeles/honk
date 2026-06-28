@@ -7,8 +7,8 @@
  * Dependencies: GameManager (Core), Direction (Core), Car (Core), LaneView, CarView, Godot
  * Author(s): H. Hristov (Milkeles)
  * Created: 05/06/2026 (dd/mm/yyyy)
- * Updated: 05/06/2026 (dd/mm/yyyy)
- * Last change: Removed unused _turnSharpness and debug-path comments
+ * Updated: 28/06/2026 (dd/mm/yyyy)
+ * Last change: Added game over popup with revive button; Added pause menu and restart button;
 */
 
 using Godot;
@@ -24,13 +24,32 @@ namespace Controller
         [Export] private int _seed = 12345;
         [Export] private float _crossDuration = 0.7f;
         [Export] private float _crashDriveDuration = 0.35f;
-
+        private bool _reviveUsed;
         private readonly Dictionary<LaneOrigin, LaneView> _lanes = new();
         private GameplayView _hud;
         private GameManager _game;
         private Vector2 _center;
         private int _pendingBoxAnims; // box-occupying animations still running this crossing/crash
         private int _textureCounter;  // deterministic per-car texture seed
+        #endregion
+
+        #region properties
+        public bool CanRevive => _game.IsGameOver && !_reviveUsed;
+
+        #endregion
+
+        #region public methods
+        /// <summary>Full-health revive, one per run. Clears ghost car views and re-enables input.</summary>
+        public void Revive()
+        {
+            if (!CanRevive) return;
+            _reviveUsed = true;
+
+            _game.Revive(_game.MaxLives);
+            foreach (LaneView lane in _lanes.Values) lane.ClearCars();
+            foreach (LaneView lane in _lanes.Values) lane.SetInputEnabled(true);
+            _hud.SetLives(_game.Lives);
+        }
         #endregion
 
         #region private methods
@@ -71,11 +90,17 @@ namespace Controller
 
         private void OnGameOver(int finalScore)
         {
+            GD.Print("Game Over");
             foreach (LaneView lane in _lanes.Values)
                 lane.SetInputEnabled(false);
-
-            GD.Print($"Game over. Score: {finalScore}");
-            // TODO: show game-over UI / offer restart
+            
+            GD.Print("InputDisabled");
+            var save = GetNode<Services.SaveManager>("/root/SaveManager");
+            GD.Print($"SaveManager Found {save != null}");
+            save.AddCoins(finalScore / 2);
+            save.TrySetHighScore(finalScore);
+            GD.Print("Stats Saved");
+            _hud.ShowGameOver(finalScore, CanRevive); // see popup below
         }
         private void DriveIntoCentreAndCrash(Car car)
         {
@@ -112,6 +137,16 @@ namespace Controller
                 _ => 2,
             };
             return (LaneOrigin)(((int)origin + offset) % 4);
+        }
+
+        private void OnRevivePressed()
+        {
+            GetNode<Services.AdManager>("/root/AdManager")
+                .ShowRewarded(() =>
+                {
+                    Revive();
+                    _hud.HideGameOver();
+                });
         }
         #endregion
 
@@ -150,9 +185,10 @@ namespace Controller
                 startLives: _game.Lives,
                 startScore: _game.Score
             );
-
+            _hud.RevivePressed += OnRevivePressed;
             _game.LifeLost += _hud.SetLives;
             _game.CarCrossing += _ => _hud.UpdateScore(_game.Score);
+
         }
 
         public override void _Process(double delta) => _game?.Tick((float)delta);

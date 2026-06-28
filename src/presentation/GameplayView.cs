@@ -20,6 +20,13 @@ namespace Presentation
         [Export] private PackedScene _heartScene;
 
         private Node _heartContainer;
+        private TransitionSceneView _transition;
+        private CenterContainer _gameOverPopup;
+        private Button _menuButton;
+        private Button _replayButton;
+        private Button _reviveButton;
+        private Button _pauseMenuButton;
+        private Button _pauseRestartButton;
         private Label _scoreLabel;
 
         private readonly List<TextureRect> _hearts = new();
@@ -27,6 +34,12 @@ namespace Presentation
         private int _score;
         private int _lives;
         private int _maxLives;
+        #endregion
+
+        #region events
+        /// <summary>Emitted when the player taps revive on the game-over popup.</summary>
+        [Signal]
+        public delegate void RevivePressedEventHandler();
         #endregion
 
         #region public methods
@@ -65,7 +78,36 @@ namespace Presentation
         public void UpdatePause(bool isPaused) { }
 
         /// <summary>Hook for game-over visuals.</summary>
-        public void UpdateGameOver(bool isGameOver) { }
+        public void ShowGameOver(int finalScore, bool canRevive)
+        {
+            GD.Print("Called");
+            _gameOverPopup.Show();
+            var spreadStars = _gameOverPopup.GetNode<Label>("%SpreadStars");
+
+            for (int i = 1; i <= 3; i++)
+            {
+                spreadStars.GetNode<TextureRect>($"Star{i}").Visible = finalScore >= i * 20;
+            }
+
+            var currentScoreLabel = _gameOverPopup.GetNode<Label>("%CurrentScore");
+            currentScoreLabel.Text = $"Score: {finalScore}";
+            if (canRevive)
+            {
+                _reviveButton.Visible = true;
+                _reviveButton.Text = "REVIVE (AD)";
+            }
+            else
+            {
+                _reviveButton.Visible = false;
+            }
+
+            var highScoreLabel = _gameOverPopup.GetNode<Label>("%HighScore");
+            var save = GetNode<Services.SaveManager>("/root/SaveManager");
+            highScoreLabel.Text = $"High Score: {save.HighScore}";
+        }
+
+        /// <summary>Hides the game-over popup (e.g. after a successful revive).</summary>
+        public void HideGameOver() => _gameOverPopup.Hide();
         #endregion
 
         #region private methods
@@ -92,6 +134,8 @@ namespace Presentation
                 _hearts.Add(active);
             }
         }
+
+        private void OnMenuPressed() => _transition.GoToScene("Menu");
         #endregion
 
         #region engine lifecycle
@@ -99,6 +143,21 @@ namespace Presentation
         {
             _heartContainer = GetNode("%HeartContainer");
             _scoreLabel = GetNode<Label>("%Score");
+            _gameOverPopup = GetNode<CenterContainer>("%GameOverPopup");
+    
+            _transition = GetNode<TransitionSceneView>("/root/TransitionScene");
+
+            _replayButton = GetNode<Button>("%ReplayBtn");
+            _reviveButton = GetNode<Button>("%ReviveBtn");
+            _menuButton = GetNode<Button>("%MenuBtn");
+            _pauseMenuButton = GetNode<Button>("%PauseMenuBtn");
+            _pauseRestartButton = GetNode<Button>("%PauseRestartBtn");
+
+            _menuButton.Pressed += OnMenuPressed;
+            _pauseMenuButton.Pressed += OnMenuPressed;
+            _pauseRestartButton.Pressed += () => GetTree().ReloadCurrentScene();
+            _replayButton.Pressed += () => GetTree().ReloadCurrentScene();
+            _reviveButton.Pressed += () => EmitSignal(SignalName.RevivePressed);
         }
         #endregion
     }

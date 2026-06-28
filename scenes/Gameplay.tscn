@@ -1506,15 +1506,17 @@ texture = ExtResource("5_hsn8a")
 layout_mode = 2
 alignment = 1
 
-[node name="ContinueButton" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1376227316]
+[node name="ContinueBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1376227316]
 layout_mode = 2
 text = "CONTINUE"
 
-[node name="MenuButton" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1474712987]
+[node name="PauseMenuBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1474712987]
+unique_name_in_owner = true
 layout_mode = 2
 text = "MENU"
 
-[node name="RestartButton" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=657122478]
+[node name="PauseRestartBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=657122478]
+unique_name_in_owner = true
 layout_mode = 2
 text = "RESTART"
 
@@ -1603,7 +1605,158 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueButton" to="HUD/PauseContainer" method="hide"]
-[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueButton" to="HUD/TopBar/MarginContainer/PauseButton" method="show"]
+[node name="GameOverPopup" type="CenterContainer" parent="HUD" unique_id=1077025047]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = -308.0
+offset_right = 560.0
+offset_bottom = 308.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="CenteredContent" type="Control" parent="HUD/GameOverPopup" unique_id=1314674896]
+custom_minimum_size = Vector2(1120, 616)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LevelCompletePanel" type="PanelContainer" parent="HUD/GameOverPopup/CenteredContent" unique_id=1805225339]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.0
+offset_top = -104.0
+offset_right = 127.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel" unique_id=1102082347]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer" unique_id=2048352000]
+layout_mode = 2
+
+[node name="Ribbon2" type="PanelContainer" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=1744627761]
+z_index = 1
+layout_mode = 2
+theme_type_variation = &"Panel_Ribbon"
+
+[node name="Label" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2" unique_id=1500745768]
+layout_mode = 2
+theme_type_variation = &"Label_Title"
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="SpreadStars" type="Control" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label" unique_id=1234711781]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Star1" type="TextureRect" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=1605684742]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -69.0
+offset_right = -30.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.174533
+texture = ExtResource("5_hsn8a")
+stretch_mode = 6
+
+[node name="Star2" type="TextureRect" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=796289561]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -84.0
+offset_right = 18.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("5_hsn8a")
+
+[node name="Star3" type="TextureRect" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2/Label/SpreadStars" unique_id=136020264]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 31.0
+offset_top = -77.0
+offset_right = 75.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.174533
+texture = ExtResource("5_hsn8a")
+
+[node name="CurrentScore" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=1684559618]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Score: 31415926535"
+horizontal_alignment = 1
+
+[node name="HighScore" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=2087540080]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Best: 161803398874989484820"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=1851796887]
+layout_mode = 2
+alignment = 1
+
+[node name="ReviveBtn" type="Button" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=755311395]
+unique_name_in_owner = true
+self_modulate = Color(0.99999684, 0.19788748, 0.25973487, 1)
+layout_mode = 2
+text = "REVIVE (AD)"
+
+[node name="ReplayBtn" type="Button" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=929652092]
+unique_name_in_owner = true
+layout_mode = 2
+text = "REPLAY"
+
+[node name="MenuBtn" type="Button" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1201037118]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU"
+
+[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="HUD/PauseContainer" method="hide"]
+[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="HUD/TopBar/MarginContainer/PauseButton" method="show"]
 [connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseButton" to="HUD/PauseContainer" method="show"]
 [connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseButton" to="HUD/TopBar/MarginContainer/PauseButton" method="hide"]

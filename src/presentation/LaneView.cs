@@ -130,6 +130,16 @@ namespace Presentation
             _waiting = null;
         }
 
+        /// <summary>Immediately frees both slot cars with no animation. For revive/restart board reset.</summary>
+        public void ClearCars()
+        {
+            ClearSettling();
+            _front?.QueueFree();
+            _waiting?.QueueFree();
+            _front = null;
+            _waiting = null;
+        }
+
         /// <summary>Plays the honk effect on the waiting car (the impatient one), if present.</summary>
         public void HonkWaiting() => _waiting?.Honk();
         #endregion
@@ -165,7 +175,6 @@ namespace Presentation
             if (stillFront)
                 EmitSignal(SignalName.FrontSettled, (int)Origin);
         }
-
         private void ClearSettling()
         {
             if (_settlingFront == null) return;
