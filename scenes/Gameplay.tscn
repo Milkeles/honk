@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dnadiv0wh5p5h" path="res://assets/art/icons/HeartFront.svg" id="6_hsn8a"]
 [ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="7_4j5yk"]
 [ext_resource type="Texture2D" uid="uid://b8ikg53tn3lnd" path="res://assets/art/icons/HamburgerIcon.svg" id="8_l501g"]
+[ext_resource type="AudioStream" uid="uid://tstdh7ghei7u" path="res://assets/audio/GameplayMusic.mp3" id="11_l501g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ykhv"]
 texture = ExtResource("1_yqorp")
@@ -1507,6 +1508,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ContinueBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1376227316]
+unique_name_in_owner = true
 layout_mode = 2
 text = "CONTINUE"
 
@@ -1593,7 +1595,8 @@ grow_vertical = 2
 texture = ExtResource("6_hsn8a")
 expand_mode = 2
 
-[node name="PauseButton" type="Button" parent="HUD/TopBar/MarginContainer" unique_id=356333835]
+[node name="PauseBtn" type="Button" parent="HUD/TopBar/MarginContainer" unique_id=356333835]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 icon = ExtResource("8_l501g")
@@ -1756,7 +1759,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "MENU"
 
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=2124943944]
+stream = ExtResource("11_l501g")
+autoplay = true
+bus = &"Music"
+
 [connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="HUD/PauseContainer" method="hide"]
-[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="HUD/TopBar/MarginContainer/PauseButton" method="show"]
-[connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseButton" to="HUD/PauseContainer" method="show"]
-[connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseButton" to="HUD/TopBar/MarginContainer/PauseButton" method="hide"]
+[connection signal="pressed" from="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="HUD/TopBar/MarginContainer/PauseBtn" method="show"]
+[connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseBtn" to="HUD/PauseContainer" method="show"]
+[connection signal="pressed" from="HUD/TopBar/MarginContainer/PauseBtn" to="HUD/TopBar/MarginContainer/PauseBtn" method="hide"]

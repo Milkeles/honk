@@ -1,12 +1,12 @@
 /* HUD overlay for the gameplay scene: shows the score and a row of hearts for lives, rebuilt from a
  * template on init. Driven by GameController via Initialize / SetLives / UpdateScore — holds no game
- * logic, only display. Pause/game-over hooks are stubs for later UI.
+ * logic, only display. Pause freezes the scene tree; popup visibility is handled by editor signals.
  *
  * Dependencies: Godot
  * Author(s): H. Hristov (Milkeles)
  * Created: 18/06/2026 (dd/mm/yyyy)
- * Updated: 19/06/2026 (dd/mm/yyyy)
- * Last change: Added comments.
+ * Updated: 28/06/2026 (dd/mm/yyyy)
+ * Last change: Wired pause button to freeze the tree; pause-menu buttons process while paused
 */
 
 using Godot;
@@ -22,11 +22,13 @@ namespace Presentation
         private Node _heartContainer;
         private TransitionSceneView _transition;
         private CenterContainer _gameOverPopup;
+        private Button _pauseButton;
         private Button _menuButton;
         private Button _replayButton;
         private Button _reviveButton;
         private Button _pauseMenuButton;
         private Button _pauseRestartButton;
+        private Button _continueButton ;
         private Label _scoreLabel;
 
         private readonly List<TextureRect> _hearts = new();
@@ -34,6 +36,7 @@ namespace Presentation
         private int _score;
         private int _lives;
         private int _maxLives;
+        private bool _isPaused;
         #endregion
 
         #region events
@@ -65,6 +68,9 @@ namespace Presentation
                 _hearts[i].Visible = i < lives;
         }
 
+        /// <summary>Toggles pause: freezes/unfreezes the scene tree.</summary>
+        public void TogglePause() => SetPaused(!_isPaused);
+
         /// <summary>Updates the displayed score.</summary>
         public void UpdateScore(int score)
         {
@@ -80,30 +86,23 @@ namespace Presentation
         /// <summary>Hook for game-over visuals.</summary>
         public void ShowGameOver(int finalScore, bool canRevive)
         {
-            GD.Print("Called");
             _gameOverPopup.Show();
-            var spreadStars = _gameOverPopup.GetNode<Label>("%SpreadStars");
+            //GD.Print($"finalScore={finalScore}");
 
-            for (int i = 1; i <= 3; i++)
-            {
-                spreadStars.GetNode<TextureRect>($"Star{i}").Visible = finalScore >= i * 20;
-            }
+            var stars = _gameOverPopup.GetNodeOrNull("%SpreadStars");
+            //GD.Print($"SpreadStars found: {stars != null}  type: {stars?.GetType().Name}");
 
-            var currentScoreLabel = _gameOverPopup.GetNode<Label>("%CurrentScore");
-            currentScoreLabel.Text = $"Score: {finalScore}";
-            if (canRevive)
-            {
-                _reviveButton.Visible = true;
-                _reviveButton.Text = "REVIVE (AD)";
-            }
-            else
-            {
-                _reviveButton.Visible = false;
-            }
+            var cur = _gameOverPopup.GetNodeOrNull<Label>("%CurrentScore");
+            //GD.Print($"CurrentScore found: {cur != null}");
+            if (cur != null) cur.Text = $"Score: {finalScore}";
 
-            var highScoreLabel = _gameOverPopup.GetNode<Label>("%HighScore");
+            var hi = _gameOverPopup.GetNodeOrNull<Label>("%HighScore");
+            //GD.Print($"HighScore found: {hi != null}");
             var save = GetNode<Services.SaveManager>("/root/SaveManager");
-            highScoreLabel.Text = $"High Score: {save.HighScore}";
+            if (hi != null) hi.Text = $"High Score: {save.HighScore}";
+
+            _reviveButton.Visible = canRevive;
+            if (canRevive) _reviveButton.Text = "REVIVE (AD)";
         }
 
         /// <summary>Hides the game-over popup (e.g. after a successful revive).</summary>
@@ -135,7 +134,27 @@ namespace Presentation
             }
         }
 
-        private void OnMenuPressed() => _transition.GoToScene("Menu");
+        private void SetPaused(bool paused)
+        {
+            // Don't allow pausing over the game-over screen.
+            if (paused && _gameOverPopup.Visible) return;
+
+            _isPaused = paused;
+            GetTree().Paused = paused;
+            UpdatePause(paused);
+        }
+
+        private void OnMenuPressed()
+        {
+            GetTree().Paused = false; // clear freeze before leaving, or the next scene starts paused
+            _transition.GoToScene("Menu");
+        }
+
+        private void OnRestartPressed()
+        {
+            GetTree().Paused = false; // Paused survives a scene reload, so clear it first
+            GetTree().ReloadCurrentScene();
+        }
         #endregion
 
         #region engine lifecycle
@@ -144,20 +163,29 @@ namespace Presentation
             _heartContainer = GetNode("%HeartContainer");
             _scoreLabel = GetNode<Label>("%Score");
             _gameOverPopup = GetNode<CenterContainer>("%GameOverPopup");
-    
+
             _transition = GetNode<TransitionSceneView>("/root/TransitionScene");
 
+            _pauseButton = GetNode<Button>("%PauseBtn");
             _replayButton = GetNode<Button>("%ReplayBtn");
             _reviveButton = GetNode<Button>("%ReviveBtn");
             _menuButton = GetNode<Button>("%MenuBtn");
             _pauseMenuButton = GetNode<Button>("%PauseMenuBtn");
             _pauseRestartButton = GetNode<Button>("%PauseRestartBtn");
+            _continueButton = GetNode<Button>("%ContinueBtn");
 
+            // The pause-menu buttons must stay clickable while the tree is frozen.
+            _pauseMenuButton.ProcessMode = ProcessModeEnum.Always;
+            _pauseRestartButton.ProcessMode = ProcessModeEnum.Always;
+            _continueButton.ProcessMode = ProcessModeEnum.Always;
+
+            _pauseButton.Pressed += TogglePause;
             _menuButton.Pressed += OnMenuPressed;
             _pauseMenuButton.Pressed += OnMenuPressed;
-            _pauseRestartButton.Pressed += () => GetTree().ReloadCurrentScene();
+            _pauseRestartButton.Pressed += OnRestartPressed;
             _replayButton.Pressed += () => GetTree().ReloadCurrentScene();
             _reviveButton.Pressed += () => EmitSignal(SignalName.RevivePressed);
+            _continueButton.Pressed += () => TogglePause();
         }
         #endregion
     }

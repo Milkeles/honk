@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cf5qeta2p6ygj" path="res://assets/art/icons/CharacterIcon.svg" id="4_1abgu"]
 [ext_resource type="Texture2D" uid="uid://ck7jwiy4uiq8q" path="res://assets/art/icons/SettingsIcon.svg" id="5_aaywf"]
 [ext_resource type="Texture2D" uid="uid://bohfgv21vnhy0" path="res://assets/art/icons/ExitIcon.svg" id="5_yt8fu"]
+[ext_resource type="AudioStream" uid="uid://8gapjikbrdwo" path="res://assets/audio/MenuMusic.mp3" id="8_1abgu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lnkpl"]
 font = ExtResource("2_b6cxs")
@@ -190,6 +191,11 @@ text = "   SAVE   "
 layout_mode = 2
 text = "DISCARD
 "
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=184854848]
+stream = ExtResource("8_1abgu")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="CenterContainer" method="hide"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="SettingsContainer" method="show"]
