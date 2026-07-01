@@ -1440,6 +1440,7 @@ theme_type_variation = &"Panel_Ribbon"
 [node name="Label" type="Label" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2" unique_id=1602201645]
 layout_mode = 2
 theme_type_variation = &"Label_Title"
+theme_override_font_sizes/font_size = 50
 text = "PAUSED"
 horizontal_alignment = 1
 
@@ -1510,16 +1511,19 @@ alignment = 1
 [node name="ContinueBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1376227316]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "CONTINUE"
 
 [node name="PauseMenuBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1474712987]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "MENU"
 
 [node name="PauseRestartBtn" type="Button" parent="HUD/PauseContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=657122478]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "RESTART"
 
 [node name="TopBar" type="Control" parent="HUD" unique_id=439221586]
@@ -1659,6 +1663,7 @@ theme_type_variation = &"Panel_Ribbon"
 [node name="Label" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/Ribbon2" unique_id=1500745768]
 layout_mode = 2
 theme_type_variation = &"Label_Title"
+theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
 horizontal_alignment = 1
 
@@ -1728,14 +1733,14 @@ texture = ExtResource("5_hsn8a")
 [node name="CurrentScore" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=1684559618]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 36
 text = "Score: 31415926535"
 horizontal_alignment = 1
 
 [node name="HighScore" type="Label" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer" unique_id=2087540080]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "Best: 161803398874989484820"
 horizontal_alignment = 1
 
@@ -1747,16 +1752,19 @@ alignment = 1
 unique_name_in_owner = true
 self_modulate = Color(0.99999684, 0.19788748, 0.25973487, 1)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "REVIVE (AD)"
 
 [node name="ReplayBtn" type="Button" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=929652092]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "REPLAY"
 
 [node name="MenuBtn" type="Button" parent="HUD/GameOverPopup/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1201037118]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "MENU"
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=2124943944]

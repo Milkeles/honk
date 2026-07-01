@@ -8,10 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://ck7jwiy4uiq8q" path="res://assets/art/icons/SettingsIcon.svg" id="5_aaywf"]
 [ext_resource type="Texture2D" uid="uid://bohfgv21vnhy0" path="res://assets/art/icons/ExitIcon.svg" id="5_yt8fu"]
 [ext_resource type="AudioStream" uid="uid://8gapjikbrdwo" path="res://assets/audio/MenuMusic.mp3" id="8_1abgu"]
+[ext_resource type="Texture2D" uid="uid://w468acdky575" path="res://assets/art/icons/CoinIcon.svg" id="9_yt8fu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lnkpl"]
 font = ExtResource("2_b6cxs")
-font_size = 120
+font_size = 160
 shadow_size = 5
 shadow_color = Color(0.19966345, 0.734698, 0.93861526, 0.717)
 
@@ -53,6 +54,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
+[node name="HighscoreLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1900696841]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "Highscore:"
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="ColorRect" type="ColorRect" parent="CenterContainer/VBoxContainer" unique_id=198109902]
 clip_contents = true
 custom_minimum_size = Vector2(0, 10)
@@ -61,34 +70,47 @@ color = Color(0, 0.57036364, 0.9223068, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=2065303238]
 layout_mode = 2
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Play" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=309222765]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 1
 text = "
 
 "
 icon = ExtResource("3_aaywf")
+autowrap_trim_flags = 0
 icon_alignment = 1
 
 [node name="Character" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=353134122]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 6
 theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 1
 icon = ExtResource("4_1abgu")
+autowrap_trim_flags = 0
 
 [node name="Settings" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=822573112]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 1
 icon = ExtResource("5_aaywf")
+autowrap_trim_flags = 0
 
 [node name="Quit" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1886579521]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 1
 text = "
 "
 icon = ExtResource("5_yt8fu")
+autowrap_trim_flags = 0
 
 [node name="SettingsContainer" type="CenterContainer" parent="." unique_id=1347181353]
 visible = false
@@ -142,6 +164,7 @@ layout_mode = 2
 theme_type_variation = &"PanelEmbedded"
 
 [node name="MarginContainer" type="MarginContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl" unique_id=737799402]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
@@ -183,11 +206,13 @@ layout_mode = 2
 layout_mode = 2
 alignment = 1
 
-[node name="SaveButton" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1239024057]
+[node name="SaveBtn" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1239024057]
+unique_name_in_owner = true
 layout_mode = 2
 text = "   SAVE   "
 
-[node name="DiscardButton" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=480104566]
+[node name="DiscardBtn" type="Button" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=480104566]
+unique_name_in_owner = true
 layout_mode = 2
 text = "DISCARD
 "
@@ -197,8 +222,49 @@ stream = ExtResource("8_1abgu")
 autoplay = true
 bus = &"Music"
 
+[node name="TopBar" type="Control" parent="." unique_id=718252774]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBar" unique_id=1548734423]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/MarginContainer" unique_id=1231381016]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Coins Icon" type="TextureRect" parent="TopBar/MarginContainer/HBoxContainer" unique_id=647269871]
+layout_mode = 2
+texture = ExtResource("9_yt8fu")
+expand_mode = 2
+
+[node name="CoinsLabel" type="Label" parent="TopBar/MarginContainer/HBoxContainer" unique_id=1390086546]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_b6cxs")
+theme_override_font_sizes/font_size = 46
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="CenterContainer" method="hide"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings" to="SettingsContainer" method="show"]
 [connection signal="value_changed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/SFXControl/MarginContainer/VBoxContainer/SFXSlider" to="." method="OnSFXValueChanged"]
-[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="CenterContainer" method="show"]
-[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SettingsContainer" method="hide"]
+[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveBtn" to="CenterContainer" method="show"]
+[connection signal="pressed" from="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/HBoxContainer/SaveBtn" to="SettingsContainer" method="hide"]

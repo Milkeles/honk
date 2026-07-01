@@ -16,8 +16,8 @@ namespace Services
     {
         public int HighScore;
         public int Coins;
-        public float MusicVolume = 1.0f;
-        public float SfxVolume = 1.0f;
+        public float MusicVolume = 50f;
+        public float SfxVolume = 50f;
         public Dictionary<string, int> Upgrades = new();
 
         public Godot.Collections.Dictionary ToDict()
