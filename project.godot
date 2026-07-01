@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 TransitionScene="*uid://b4kyjwp4dqypg"
 SaveManager="*uid://ryf4py2n6fkb"
+AdManager="*uid://dv0idxl2j2tvd"
 
 [display]
 

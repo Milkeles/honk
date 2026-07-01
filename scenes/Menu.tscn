@@ -164,7 +164,6 @@ layout_mode = 2
 theme_type_variation = &"PanelEmbedded"
 
 [node name="MarginContainer" type="MarginContainer" parent="SettingsContainer/CenteredContent/LevelCompletePanel/MarginContainer/VBoxContainer/MusicControl" unique_id=737799402]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
