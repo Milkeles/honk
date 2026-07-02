@@ -1,10 +1,11 @@
-/* Serializable player-progress fields and their dictionary mapping for SaveManager.
+/* Serializable player-progress fields and their dictionary mapping for SaveManager. Upgrade levels
+ * (health, regen, gain, rebirth) live under the "upgrades" sub-dictionary by name.
  *
- * Dependencies: Godot
+ * Dependencies: Godot, Updates
  * Author(s): H. Hristov (Milkeles)
  * Created: 28/06/2026 (dd/mm/yyyy)
- * Updated: N/A
- * Last change: N/A
+ * Updated: 01/07/2026 (dd/mm/yyyy)
+ * Last change: Documented upgrade keys; volume defaults corrected to 50
 */
 
 using Godot;
@@ -18,6 +19,8 @@ namespace Services
         public int Coins;
         public float MusicVolume = 50f;
         public float SfxVolume = 50f;
+
+        // Upgrade levels by key: "health", "regen", "gain", "rebirth".
         public Dictionary<string, int> Upgrades = new();
 
         public Godot.Collections.Dictionary ToDict()
@@ -39,8 +42,8 @@ namespace Services
         {
             HighScore = (int)d.GetValueOrDefault("highScore", 0);
             Coins = (int)d.GetValueOrDefault("coins", 0);
-            MusicVolume = (float)d.GetValueOrDefault("musicVolume", 1.0f);
-            SfxVolume = (float)d.GetValueOrDefault("sfxVolume", 1.0f);
+            MusicVolume = (float)d.GetValueOrDefault("musicVolume", 50f);
+            SfxVolume = (float)d.GetValueOrDefault("sfxVolume", 50f);
 
             Upgrades.Clear();
             if (d.GetValueOrDefault("upgrades", new Godot.Collections.Dictionary()).Obj

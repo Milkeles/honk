@@ -1,14 +1,13 @@
-/* The bridge between the core simulation and the Godot scene, attached to the main scene root. Owns the
- * seeded GameManager and finds the four LaneViews by name, pumps GameManager.Tick each frame, turns lane
- * taps into ReleaseLane commands, and translates core events into spawn / cross / crash / honk calls.
- * Resolves a crossing's destination lane via (origin + offset) % 4. Frees the box once all box-occupying
- * animations finish. Intersection and Lanes are private to GameManager — this talks only to that facade.
+/* The bridge between the core simulation and the Godot scene. Builds GameManager from the player's saved
+ * Upgrades, pumps Tick, turns taps into ReleaseLane, and translates core events into spawn/cross/crash/
+ * honk calls. Applies the coin-gain multiplier when awarding coins at game over. Talks only to the
+ * GameManager facade; Intersection and Lanes are private to it.
  *
- * Dependencies: GameManager (Core), Direction (Core), Car (Core), LaneView, CarView, Godot
+ * Dependencies: GameManager (Core), Upgrades (Core), Direction, Car, LaneView, CarView, SaveManager, Godot
  * Author(s): H. Hristov (Milkeles)
  * Created: 05/06/2026 (dd/mm/yyyy)
- * Updated: 28/06/2026 (dd/mm/yyyy)
- * Last change: Added game over popup with revive button; Added pause menu and restart button;
+ * Updated: 01/07/2026 (dd/mm/yyyy)
+ * Last change: Build GameManager from saved Upgrades; coin payout uses CoinMultiplier
 */
 
 using Godot;
@@ -21,13 +20,17 @@ namespace Controller
     public partial class GameController : Node2D
     {
         #region fields
+        [Export] private bool _randomSeed = true;
         [Export] private int _seed = 12345;
         [Export] private float _crossDuration = 0.7f;
         [Export] private float _crashDriveDuration = 0.35f;
+
         private bool _reviveUsed;
         private readonly Dictionary<LaneOrigin, LaneView> _lanes = new();
         private GameplayView _hud;
         private GameManager _game;
+        private Services.SaveManager _save;
+        private float _coinMultiplier = 1f;
         private Vector2 _center;
         private int _pendingBoxAnims; // box-occupying animations still running this crossing/crash
         private int _textureCounter;  // deterministic per-car texture seed
@@ -35,7 +38,6 @@ namespace Controller
 
         #region properties
         public bool CanRevive => _game.IsGameOver && !_reviveUsed;
-
         #endregion
 
         #region public methods
@@ -90,18 +92,16 @@ namespace Controller
 
         private void OnGameOver(int finalScore)
         {
-            GD.Print("Game Over");
             foreach (LaneView lane in _lanes.Values)
                 lane.SetInputEnabled(false);
-            
-            GD.Print("InputDisabled");
-            var save = GetNode<Services.SaveManager>("/root/SaveManager");
-            GD.Print($"SaveManager Found {save != null}");
-            save.AddCoins(finalScore / 2);
-            save.TrySetHighScore(finalScore);
-            GD.Print("Stats Saved");
-            _hud.ShowGameOver(finalScore, CanRevive); // see popup below
+
+            int coins = Mathf.RoundToInt(finalScore / 2f * _coinMultiplier);
+            _save.AddCoins(coins);
+            _save.TrySetHighScore(finalScore);
+
+            _hud.ShowGameOver(finalScore, CanRevive);
         }
+
         private void DriveIntoCentreAndCrash(Car car)
         {
             CarView view = _lanes[car.LaneOrigin].ReleaseFront();
@@ -171,7 +171,12 @@ namespace Controller
                 : (_lanes[LaneOrigin.North].EntryPoint + _lanes[LaneOrigin.South].EntryPoint
                    + _lanes[LaneOrigin.East].EntryPoint + _lanes[LaneOrigin.West].EntryPoint) / 4f;
 
-            _game = new GameManager(_seed);
+            _save = GetNode<Services.SaveManager>("/root/SaveManager");
+            Upgrades upgrades = _save.Upgrades;
+            _coinMultiplier = upgrades.CoinMultiplier;
+
+            int seed = _randomSeed ? (int)Time.GetTicksUsec() : _seed;
+            _game = new GameManager(seed, upgrades);
             _game.CarEntered += OnCarEntered;
             _game.CarCrossing += OnCarCrossing;
             _game.CarHonked += OnCarHonked;
@@ -179,16 +184,10 @@ namespace Controller
             _game.GameOver += OnGameOver;
 
             _hud = GetNode<GameplayView>("%HUD");
-
-            _hud.Initialize(
-                maxLives: _game.Lives,
-                startLives: _game.Lives,
-                startScore: _game.Score
-            );
+            _hud.Initialize(_game.MaxLives, _game.Lives, _game.Score);
             _hud.RevivePressed += OnRevivePressed;
             _game.LifeLost += _hud.SetLives;
             _game.CarCrossing += _ => _hud.UpdateScore(_game.Score);
-
         }
 
         public override void _Process(double delta) => _game?.Tick((float)delta);

@@ -1,22 +1,9 @@
-/* Sim root and the core's public surface. Owns the intersection (and through it the
- * four lanes), the player's lives and score, and the time-based difficulty ramp.
- * Exposes the inbound commands (Tick, ReleaseLane, NotifyAnimationFinished) and raises
- * the outbound events the presentation layer reacts to. Spawns arrivals from a seeded
- * RNG. Knows nothing about Godot.
- *
- * Dependencies: Intersection, Lane, Car, Direction
- * Author(s): H. Hristov (Milkeles)
- * Created: 05/06/2026 (dd/mm/yyyy)
- * Updated: 19/06/2026 (dd/mm/yyyy)
- * Last change: Updated spawner logic to handle spawning multiple cars at once; Added NotifyFrontSettled for the view to mark a lane's front car settled (slide finished) so it counts for conflict/deadlock checks; Updated comments.
-*/
 using System;
 
 namespace Core {
     public class GameManager : IDisposable
     {
         #region tunables
-        private const int StartLives = 3;
         private const int BurstMin = 2;
         private const int BurstMax = 3;
         private const float SpawnIntervalStart = 2.5f;
@@ -25,15 +12,21 @@ namespace Core {
         private const float PatienceStart = 4.0f;   // seconds per honk; total patience is 3x this
         private const float PatienceMin = 1.5f;
 
-        private const float RampDuration = 90f;      // seconds of play to reach max difficulty
+        private const float RampDuration = 90f;     // seconds of play to reach max difficulty
         #endregion
 
         #region fields
         private readonly Intersection _intersection;
         private readonly Random _rng;
+        private readonly Upgrades _upgrades;
+
+        private readonly int _maxLives;
+        private readonly int _scorePerCar;
+        private readonly float _regenPerCar;
 
         private int _lives;
         private int _score;
+        private float _regenProgress;   // accumulates toward the next restored heart
         private float _elapsed;
         private float _timeUntilSpawn;
         private bool _isGameOver;
@@ -41,10 +34,16 @@ namespace Core {
         #endregion
 
         #region constructors
-        public GameManager(int seed)
+        public GameManager(int seed, Upgrades upgrades)
         {
             _rng = new Random(seed);
-            _lives = StartLives;
+            _upgrades = upgrades;
+
+            _maxLives = upgrades.MaxHearts;
+            _scorePerCar = upgrades.ScorePerCar;
+            _regenPerCar = upgrades.RegenPerCar;
+
+            _lives = _maxLives;
             _timeUntilSpawn = SpawnIntervalStart;
 
             _intersection = new Intersection();
@@ -55,11 +54,9 @@ namespace Core {
 
         #region properties
         public int Lives => _lives;
-
         public int Score => _score;
-
         public bool IsGameOver => _isGameOver;
-        public int MaxLives => StartLives;
+        public int MaxLives => _maxLives;
         #endregion
 
         #region events
@@ -97,7 +94,7 @@ namespace Core {
 
             _elapsed += delta;
             _intersection.Tick(delta);
-            if (_isGameOver) return; // an impatience crash during the tick may have ended the game
+            if (_isGameOver) return;
 
             UpdateSpawning(delta);
 
@@ -116,7 +113,8 @@ namespace Core {
 
             if (_intersection.TryReleaseLane(origin))
             {
-                _score++;
+                _score += _scorePerCar;
+                AccumulateRegen();
                 CarCrossing?.Invoke(_intersection.Crossing);
             }
         }
@@ -125,11 +123,23 @@ namespace Core {
         /// the CarView animation-finished event.</summary>
         public void NotifyAnimationFinished() => _intersection.FinishAnimation();
 
-        // public methods
         /// <summary>Marks a lane's front car settled (slide finished), so it counts for conflict/deadlock.
         /// Driven by the view's slide-finished signal.</summary>
         public void NotifyFrontSettled(LaneOrigin origin) => _intersection.MarkFrontReady(origin);
 
+        /// <summary>Clears the board and restores lives, resuming a lost run. Call on player revive.</summary>
+        public void Revive(int lives)
+        {
+            _intersection.ResetBoard();
+            _lives = lives;
+            _regenProgress = 0f;
+            _isGameOver = false;
+            _timeUntilSpawn = CurrentSpawnInterval();
+        }
+
+        /// <summary>
+        /// Disposes the GameManager, unsubscribing from events and releasing resources. After calling Dispose, the GameManager should not be used.
+        /// </summary>
         public void Dispose()
         {
             if (_disposed) return;
@@ -146,21 +156,23 @@ namespace Core {
             GameOver = null;
             _disposed = true;
         }
-
-        /// <summary>Clears the board and restores lives, resuming a lost run. Call on player revive.</summary>
-        public void Revive(int lives)
-        {
-            _intersection.ResetBoard();
-            _lives = lives;
-            _isGameOver = false;
-            
-            // brief pause before the next spawn to give the player a moment to react.
-            _timeUntilSpawn = CurrentSpawnInterval();
-        }
-
         #endregion
 
         #region private methods
+        // Health regen: accrue per correct car; each whole point restores one heart (capped at max).
+        private void AccumulateRegen()
+        {
+            if (_regenPerCar <= 0f || _lives >= _maxLives) return;
+
+            _regenProgress += _regenPerCar;
+            while (_regenProgress >= 1f && _lives < _maxLives)
+            {
+                _regenProgress -= 1f;
+                _lives++;
+                LifeLost?.Invoke(_lives); // reused as a "lives changed" signal
+            }
+        }
+
         // private void UpdateSpawning(float delta)
         // {
         //     _timeUntilSpawn -= delta;
@@ -238,6 +250,7 @@ namespace Core {
         private void OnCrashed(Car a, Car b, CrashCause cause)
         {
             _lives--;
+            _regenProgress = 0f; // any mistake resets regen progress
             Crashed?.Invoke(a, b, cause);
             LifeLost?.Invoke(_lives);
 
@@ -249,11 +262,9 @@ namespace Core {
         }
 
         private MovementDirection RandomDirection() => (MovementDirection)_rng.Next(3);
-
         private float CurrentSpawnInterval() => Ramp(SpawnIntervalStart, SpawnIntervalMin);
-
         private float CurrentPatience() => Ramp(PatienceStart, PatienceMin);
-
+        
         // Linear ramp from start to end across RampDuration, then held at end.
         private float Ramp(float start, float end)
         {

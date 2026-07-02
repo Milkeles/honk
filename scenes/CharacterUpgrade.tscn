@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://boyi6sr5st4fa"]
+
+[ext_resource type="Script" uid="uid://d0inxpn0oi1qy" path="res://src/presentation/UpgradesView.cs" id="1_aqqb1"]
+[ext_resource type="Texture2D" uid="uid://w468acdky575" path="res://assets/art/icons/CoinIcon.svg" id="2_dlmer"]
+[ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="3_1in42"]
+
+[node name="CharacterUpgrade" type="Control" unique_id=31372876]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aqqb1")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1866614801]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.004232218, 0.008759057, 0.045904502, 1)
+
+[node name="TopBar" type="Control" parent="." unique_id=801660896]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBar" unique_id=1878467445]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/MarginContainer" unique_id=681570013]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Coins Icon" type="TextureRect" parent="TopBar/MarginContainer/HBoxContainer" unique_id=2146659359]
+layout_mode = 2
+texture = ExtResource("2_dlmer")
+expand_mode = 2
+
+[node name="CoinsLabel" type="Label" parent="TopBar/MarginContainer/HBoxContainer" unique_id=731731490]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1in42")
+theme_override_font_sizes/font_size = 46
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
