@@ -24,3 +24,5 @@ Thumbs.db
 
 # AdMob config with private IDs
 addons/admob/android/config.gd
+addons/admob/android/config.gd.uid
+ad_config.json
