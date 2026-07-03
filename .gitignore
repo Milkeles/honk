@@ -21,3 +21,6 @@ obj/
 .DS_Store
 Thumbs.db
 *~
+
+# AdMob config with private IDs
+addons/admob/android/config.gd
