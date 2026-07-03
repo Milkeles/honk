@@ -3,6 +3,13 @@
 [ext_resource type="Script" uid="uid://d0inxpn0oi1qy" path="res://src/presentation/UpgradesView.cs" id="1_aqqb1"]
 [ext_resource type="Texture2D" uid="uid://w468acdky575" path="res://assets/art/icons/CoinIcon.svg" id="2_dlmer"]
 [ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="3_1in42"]
+[ext_resource type="Texture2D" uid="uid://bohfgv21vnhy0" path="res://assets/art/icons/ExitIcon.svg" id="4_1in42"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dlmer"]
+font = ExtResource("3_1in42")
+font_size = 75
+shadow_size = 5
+shadow_color = Color(0.19966345, 0.734698, 0.93861526, 0.717)
 
 [node name="CharacterUpgrade" type="Control" unique_id=31372876]
 layout_mode = 3
@@ -14,10 +21,9 @@ grow_vertical = 2
 script = ExtResource("1_aqqb1")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1866614801]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 0
+offset_right = 1080.0
+offset_bottom = 1920.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.004232218, 0.008759057, 0.045904502, 1)
@@ -62,3 +68,151 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="BackBtn" type="Button" parent="TopBar/MarginContainer" unique_id=324334609]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("4_1in42")
+
+[node name="StatUpgradesContainer" type="MarginContainer" parent="." unique_id=276317031]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -24.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="StatListContainer" type="VBoxContainer" parent="StatUpgradesContainer" unique_id=486946681]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="StatUpgradesContainer/StatListContainer" unique_id=1994055342]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "CHARACTER UPGRADE"
+label_settings = SubResource("LabelSettings_dlmer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer" unique_id=184164487]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer" unique_id=1857329524]
+layout_mode = 2
+
+[node name="StatNameLabels" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer" unique_id=536748123]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="HealthUpdateCostLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatNameLabels" unique_id=609929738]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "Health ($200):"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RegenUpdateCostLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatNameLabels" unique_id=1464185225]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "HealthRegeneration($500):"
+vertical_alignment = 1
+
+[node name="GainUpdateCostLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatNameLabels" unique_id=560196834]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "MoneyGain($2000):"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatLevelLabels" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer" unique_id=75206840]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HealthLevelLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatLevelLabels" unique_id=71138062]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RegenLevelLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatLevelLabels" unique_id=988187812]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GainLevelLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatLevelLabels" unique_id=1768275616]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatUpgradeButtons" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer" unique_id=1557650137]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatUpgradeButtons" unique_id=1256501042]
+layout_mode = 2
+
+[node name="HealthBtn" type="Button" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatUpgradeButtons/VBoxContainer" unique_id=1600542039]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "+"
+
+[node name="RegenBtn" type="Button" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatUpgradeButtons" unique_id=977745909]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "+"
+
+[node name="GainBtn" type="Button" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/HBoxContainer/StatUpgradeButtons" unique_id=1624994034]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "+"
+
+[node name="RebirthContainer" type="VBoxContainer" parent="StatUpgradesContainer/StatListContainer/VBoxContainer" unique_id=445180026]
+layout_mode = 2
+
+[node name="RebirthBtn" type="Button" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/RebirthContainer" unique_id=436997488]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "REBIRTH (0)"
+
+[node name="RebirthCostLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/RebirthContainer" unique_id=930928445]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 42
+text = "$5000"
+horizontal_alignment = 1
+vertical_alignment = 1

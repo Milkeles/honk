@@ -22,7 +22,7 @@ namespace Presentation
         private TransitionSceneView _transition;
 
         private Button _healthButton, _regenButton, _gainButton, _rebirthButton;
-        private Label _healthLevel, _regenLevel, _gainLevel, _rebirthLevel;
+        private Label _healthLevel, _regenLevel, _gainLevel;
         private Label _healthCost, _regenCost, _gainCost, _rebirthCost;
         private Label _coinsLabel;
         #endregion
@@ -73,9 +73,9 @@ namespace Presentation
                 return;
             }
 
-            levelLabel.Text = $"Level: {level}";
+            levelLabel.Text = $"{level}";
             int cost = u.CostOf(stat);
-            costLabel.Text = $"Cost: {cost}";
+            costLabel.Text = $"{stat}(${cost}):";
             costLabel.Visible = true;
             button.Visible = true;
             button.Disabled = _save.Coins < cost;
@@ -83,9 +83,9 @@ namespace Presentation
 
         private void UpdateRebirthRow(Upgrades u)
         {
-            _rebirthLevel.Text = u.Rebirth >= Upgrades.MaxRebirth
-                ? $"(Max({u.Rebirth}))"
-                : $"Rebirth: {u.Rebirth}";
+            _rebirthButton.Text = u.Rebirth >= Upgrades.MaxRebirth
+                ? $"REBIRTH (MAX({u.Rebirth}))"
+                : $"REBIRTH ({u.Rebirth})";
 
             if (u.Rebirth >= Upgrades.MaxRebirth)
             {
@@ -116,7 +116,6 @@ namespace Presentation
             _healthLevel = GetNode<Label>("%HealthLevelLabel");
             _regenLevel  = GetNode<Label>("%RegenLevelLabel");
             _gainLevel   = GetNode<Label>("%GainLevelLabel");
-            _rebirthLevel = GetNode<Label>("%RebirthLevelLabel");
 
             _healthCost = GetNode<Label>("%HealthUpdateCostLabel");
             _regenCost  = GetNode<Label>("%RegenUpdateCostLabel");

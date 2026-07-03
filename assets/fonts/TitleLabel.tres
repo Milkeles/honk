@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cb47xkkxch8t2"]
+
+[ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="1_tkbyh"]
+
+[resource]
+font = ExtResource("1_tkbyh")
+font_size = 150
+shadow_size = 5
+shadow_color = Color(0.19966345, 0.734698, 0.93861526, 0.717)

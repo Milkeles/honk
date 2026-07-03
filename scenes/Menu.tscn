@@ -3,18 +3,13 @@
 [ext_resource type="Script" uid="uid://ds1v7ht18gc5r" path="res://src/presentation/MenuView.cs" id="1_jmdev"]
 [ext_resource type="FontFile" uid="uid://brgukw5ye603i" path="res://addons/Themey/themes/spacey/font/Share/Share-Bold.ttf" id="2_b6cxs"]
 [ext_resource type="Theme" uid="uid://bsyjmm3kj6qyr" path="res://addons/Themey/themes/spacey/spacey.tres" id="3_1abgu"]
+[ext_resource type="LabelSettings" uid="uid://cb47xkkxch8t2" path="res://assets/fonts/TitleLabel.tres" id="3_4umqm"]
 [ext_resource type="Texture2D" uid="uid://dth7wlj8ava0g" path="res://assets/art/icons/PlayIcon.svg" id="3_aaywf"]
 [ext_resource type="Texture2D" uid="uid://cf5qeta2p6ygj" path="res://assets/art/icons/CharacterIcon.svg" id="4_1abgu"]
 [ext_resource type="Texture2D" uid="uid://ck7jwiy4uiq8q" path="res://assets/art/icons/SettingsIcon.svg" id="5_aaywf"]
 [ext_resource type="Texture2D" uid="uid://bohfgv21vnhy0" path="res://assets/art/icons/ExitIcon.svg" id="5_yt8fu"]
 [ext_resource type="AudioStream" uid="uid://8gapjikbrdwo" path="res://assets/audio/MenuMusic.mp3" id="8_1abgu"]
 [ext_resource type="Texture2D" uid="uid://w468acdky575" path="res://assets/art/icons/CoinIcon.svg" id="9_yt8fu"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_lnkpl"]
-font = ExtResource("2_b6cxs")
-font_size = 160
-shadow_size = 5
-shadow_color = Color(0.19966345, 0.734698, 0.93861526, 0.717)
 
 [node name="Control" type="Control" unique_id=1463234633]
 layout_mode = 3
@@ -49,7 +44,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=359104974]
 layout_mode = 2
 text = "HONK!"
-label_settings = SubResource("LabelSettings_lnkpl")
+label_settings = ExtResource("3_4umqm")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true

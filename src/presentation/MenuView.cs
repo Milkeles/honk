@@ -30,7 +30,7 @@ namespace Presentation
 
         #region private methods
         private void OnPlayPressed() => _transition.GoToScene("Gameplay");
-
+        private void OnCharacterPressed() => _transition.GoToScene("CharacterUpgrade");
         private void OnQuitPressed() => GetTree().Quit();
 
         private void OnSFXValueChanged(double value) => ApplyToBus("SFX", (float)value);
@@ -84,6 +84,7 @@ namespace Presentation
             _save = GetNode<Services.SaveManager>("/root/SaveManager");
 
             GetNode<Button>("%Play").Pressed += OnPlayPressed;
+            GetNode<Button>("%Character").Pressed += OnCharacterPressed;
             GetNode<Button>("%Quit").Pressed += OnQuitPressed;
             GetNode<Button>("%SaveBtn").Pressed += OnSavePressed;
             GetNode<Button>("%DiscardBtn").Pressed += OnDiscardPressed;

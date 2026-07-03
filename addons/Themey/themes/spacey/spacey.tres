@@ -1,5 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bsyjmm3kj6qyr"]
 
+[ext_resource type="Texture2D" uid="uid://b2nu7jpijwgxd" path="res://addons/Themey/themes/spacey/graphics/spacey_button_pressed.png" id="1_kcy28"]
 [ext_resource type="StyleBox" uid="uid://clb2fsgyvp5pa" path="res://addons/Themey/themes/spacey/panels/spacey_button_hovered.tres" id="2_d1rfb"]
 [ext_resource type="StyleBox" uid="uid://bu3asmtpckaun" path="res://addons/Themey/themes/spacey/panels/spacey_button.tres" id="3_fnllr"]
 [ext_resource type="StyleBox" uid="uid://yamlhfhh2ba2" path="res://addons/Themey/themes/spacey/panels/spacey_button_pressed.tres" id="4_bsucj"]
@@ -8,10 +9,12 @@
 [ext_resource type="StyleBox" uid="uid://bvocuknixxciu" path="res://addons/Themey/themes/spacey/panels/spacey-panel-embedded.tres" id="27_i1jvp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o2rwg"]
+texture = ExtResource("1_kcy28")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
+modulate_color = Color(0.36078432, 0.41960785, 0.47058824, 0.36862746)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n5wiq"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
