@@ -22,8 +22,8 @@ namespace Presentation
         private TransitionSceneView _transition;
 
         private Button _healthButton, _regenButton, _gainButton, _rebirthButton;
-        private Label _healthLevel, _regenLevel, _gainLevel;
-        private Label _healthCost, _regenCost, _gainCost, _rebirthCost;
+        private Label _healthLevel, _regenLevel, _gainLevel, _rebirthLevel;
+        private Label _healthCost, _regenCost, _gainCost;
         private Label _coinsLabel;
         #endregion
 
@@ -67,9 +67,9 @@ namespace Presentation
 
             if (u.IsMaxed(stat))
             {
-                levelLabel.Text = $"(Max({level}))";
-                costLabel.Visible = false;
-                button.Visible = false;
+                levelLabel.Text = $"Max Level({level})";
+                costLabel.Text = $"{stat}:";
+                button.Disabled = true;
                 return;
             }
 
@@ -83,19 +83,18 @@ namespace Presentation
 
         private void UpdateRebirthRow(Upgrades u)
         {
+            int cost = u.RebirthCost();
             _rebirthButton.Text = u.Rebirth >= Upgrades.MaxRebirth
-                ? $"REBIRTH (MAX({u.Rebirth}))"
-                : $"REBIRTH ({u.Rebirth})";
+                ? $"REBIRTH (MAXXED))"
+                : $"REBIRTH (${cost})";
 
             if (u.Rebirth >= Upgrades.MaxRebirth)
             {
-                _rebirthCost.Visible = false;
                 _rebirthButton.Visible = false;
                 return;
             }
 
-            int cost = u.RebirthCost();
-            _rebirthCost.Text = $"Cost: {cost}";
+            _rebirthLevel.Text = $"Rebirth Level {u.Rebirth}";
             _rebirthButton.Visible = true;
             // Enabled only when all stats maxed AND affordable.
             _rebirthButton.Disabled = !u.CanRebirth || _save.Coins < cost;
@@ -116,11 +115,11 @@ namespace Presentation
             _healthLevel = GetNode<Label>("%HealthLevelLabel");
             _regenLevel  = GetNode<Label>("%RegenLevelLabel");
             _gainLevel   = GetNode<Label>("%GainLevelLabel");
+            _rebirthLevel = GetNode<Label>("%RebirthLevelLabel");
 
             _healthCost = GetNode<Label>("%HealthUpdateCostLabel");
             _regenCost  = GetNode<Label>("%RegenUpdateCostLabel");
             _gainCost   = GetNode<Label>("%GainUpdateCostLabel");
-            _rebirthCost = GetNode<Label>("%RebirthCostLabel");
 
             _coinsLabel = GetNodeOrNull<Label>("%CoinsLabel");
 

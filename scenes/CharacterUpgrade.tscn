@@ -90,7 +90,7 @@ theme_override_constants/margin_right = 50
 
 [node name="StatListContainer" type="VBoxContainer" parent="StatUpgradesContainer" unique_id=486946681]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="StatUpgradesContainer/StatListContainer" unique_id=1994055342]
@@ -206,13 +206,23 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "REBIRTH (0)"
+text = "REBIRTH ($5000)"
 
-[node name="RebirthCostLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/RebirthContainer" unique_id=930928445]
+[node name="RebirthLevelLabel" type="Label" parent="StatUpgradesContainer/StatListContainer/VBoxContainer/RebirthContainer" unique_id=930928445]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 42
-text = "$5000"
+text = "Rebirth Level 0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="StatUpgradesContainer/StatListContainer" unique_id=177525455]
+custom_minimum_size = Vector2(50, 10)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8217887, 0.82178867, 0.82178867, 1)
+theme_override_font_sizes/font_size = 32
+text = "Warning: Using rebirth will erase all your character upgrades and the cash you've gained. However, it will increase your score gain, allowing you to earn money faster and reacher higher score."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

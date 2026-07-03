@@ -215,6 +215,7 @@ text = "DISCARD
 stream = ExtResource("8_1abgu")
 autoplay = true
 bus = &"Music"
+parameters/looping = true
 
 [node name="TopBar" type="Control" parent="." unique_id=718252774]
 custom_minimum_size = Vector2(0, 100)
