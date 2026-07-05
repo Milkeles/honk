@@ -64,7 +64,7 @@ namespace Core
         public bool IsMaxed(Stat stat) => LevelOf(stat) >= MaxStatLevel;
 
         // Stat upgrade cost: 250 + level*250 + rebirth*100 (level = current, i.e. the next purchase).
-        public int CostOf(Stat stat) => 2 + LevelOf(stat) * 2 + Rebirth * 100;
+        public int CostOf(Stat stat) => 250 + LevelOf(stat) * 250 + Rebirth * 100;
 
         public int RebirthCost() => 5000 + Rebirth * 5000;
 

@@ -15,8 +15,8 @@ run/main_scene="uid://b0u1tjxmycuo"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 boot_splash/bg_color=Color(0.22, 0.22, 0.22, 1)
 boot_splash/stretch_mode=0
-boot_splash/image="uid://7aipecumum1a"
-config/icon="res://icon.svg"
+boot_splash/image="uid://b40mxrui3tb4m"
+config/icon="uid://bw0sdqynee77b"
 
 [autoload]
 
