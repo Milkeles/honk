@@ -8,7 +8,7 @@ A fast-paced traffic-control arcade game where every tap keeps the intersection 
 This document is the combined design and technical reference for **HONK!**, a minimal real-time traffic-control game. It captures the intended experience, mechanics, rules, architecture, and development conventions in a single place.
 
 ### 1.2. Project Scope
-HONK! is a small, self-contained arcade game with one mode: survive an escalating 4-way intersection for as long as possible. The scope is deliberately tight — one screen, one input type, no meta-progression and no content unlocks. The project was built in a single day, so the design favors a small, well-defined core over breadth.
+HONK! is a small, self-contained arcade game with one mode: survive an escalating 4-way intersection for as long as possible. The scope is deliberately tight — one screen, one input type, no meta-progression and no content unlocks. The project's core was built in a single day, so the design favors a small, well-defined core over breadth, later completed over the course of three weeks to a publication-ready stage and maintained occasionally.
 
 ## 2. Game Overview
 
